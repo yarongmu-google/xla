@@ -355,6 +355,12 @@ class View(torch.Tensor):
       result = view_info.transform_tensor(result)
     return result
 
+  def detach(self) -> "View":
+    """
+        Returns a new view that is detached from the original tensor.
+        """
+    return View(self.parent, self.view_info, self._env)
+
   def __setitem__(self, indexes, val):
     view_infos = self.get_transformation_chain() + [NarrowInfo(indexes)]
     self.update(view_infos=view_infos, new_values=val)
